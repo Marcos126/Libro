@@ -1,8 +1,9 @@
 package edu.tienda.core.controllers;
 
 import edu.tienda.core.domain.Cliente;
-import edu.tienda.core.exceptions.ResourceNotFoundException;
+import edu.tienda.core.domain.Producto;
 import edu.tienda.core.exceptions.BadRequestException;
+import edu.tienda.core.services.ClientesServiceImpl;
 
 import java.net.URI;
 
@@ -24,13 +25,16 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
-@RequestMapping("/clientes")
+@RequestMapping("/tienda/clientes")
 public class ClienteRestController{
 
-    private List<Cliente> clientes = new ArrayList<>(Arrays.asList(
-        new Cliente("ara","1234","Armstrong"),
-        new Cliente("ald","1234","Aldrin"),
-        new Cliente("col","1234","Collins")
+    private final ClientesServiceImpl clientesService = new ClientesServiceImpl();
+
+    private final List<Cliente> clientes = new ArrayList<>(Arrays.asList(
+            new Cliente("arm","1234","Armstrong"),
+            new Cliente("ald","1234","Aldrin"),
+            new Cliente("col","1234","Collins")
+
     ));
 
     @GetMapping
@@ -38,21 +42,14 @@ public class ClienteRestController{
         return ResponseEntity.ok(clientes);
     }
 
-    @GetMapping("/{userName}")
-    public ResponseEntity<?> getClienteByUserName(@PathVariable String userName){
-
-        if(userName.length() != 3){
-            throw new BadRequestException("El parametro solo debe contener 3 caracteres");
-        }
-        
-        return  clientes.stream()
-                .filter(cliente -> cliente.getUsername().equalsIgnoreCase(userName))
-                .findFirst()
-                .map(ResponseEntity::ok)
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente " + userName + " no encontrado."));
-        
-        
-    }
+     @GetMapping("/{userName}")
+     public Cliente getClienteByUserName(@PathVariable String userName){
+         return clientes.stream()
+         .filter(cliente -> cliente.getUsername()
+         .equalsIgnoreCase(userName))
+         .findFirst()
+         .orElseThrow();
+     }
 
     @PostMapping
     public ResponseEntity<?> altaCliente(@RequestBody Cliente cliente){
@@ -75,6 +72,6 @@ public class ClienteRestController{
         clientes.remove(clienteEncontrado);
         return ResponseEntity.noContent().build();
     }
-    
+
 }
 
