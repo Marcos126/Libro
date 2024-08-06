@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import edu.tienda.core.configurations.ConfigurationParameters;
 import edu.tienda.core.services.ProductoService;
@@ -23,16 +21,21 @@ import java.util.List;
 @RequestMapping("/tienda/productos")
 public class ProductoRestController{
 
-    @Lazy
-    @Qualifier("API")
+    @Qualifier("DB")
+    @Autowired
     private ProductoService productoService;
 
     private ConfigurationParameters configurationParameters;
 
     @GetMapping()
     public ResponseEntity<?> getProducts(){
-        System.out.println("params: " + configurationParameters.toString());
         return ResponseEntity.ok(productoService.getProductos());
+    }
+
+    @PostMapping()
+    public ResponseEntity<?> addProduct(@RequestBody Producto producto){
+        productoService.saveProducto(producto);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/fake-productos")

@@ -5,4 +5,5 @@ import edu.tienda.core.domain.Producto;
 
 public interface ProductoService {
     public List<Producto> getProductos();
+    public void saveProducto(Producto producto);
 }

@@ -28,4 +28,10 @@ public class ProductoServiceImplApiExterna implements ProductoService {
         return response.getBody();
     }
 
+    @Override
+    public void saveProducto(Producto producto) {
+
+    }
+
+
 }

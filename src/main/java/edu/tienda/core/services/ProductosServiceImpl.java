@@ -33,6 +33,11 @@ public class ProductosServiceImpl implements ProductoService{
          System.out.println("Se esta construyendo un objeto de la clase ProductosServiceImpl");
      }
 
+    @Override
+    public void saveProducto(Producto producto) {
+
+    }
+
  }
 
  

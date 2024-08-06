@@ -1,10 +1,10 @@
 package edu.tienda.core.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Setter
-@Getter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 
 public class Producto {
     private Integer id;
@@ -12,6 +12,4 @@ public class Producto {
     private Double precio;
     private Integer stock;
 
-    public Producto() {
-    }
 }
